@@ -47,6 +47,11 @@ class App extends Component {
 
 }
 fetchArticles(theSource){
+  this.setState({
+    loader:<Loader />,
+    randomFeed:[]
+
+  })
   let url = `https://newsapi.org/v1/articles?source=${theSource}&apiKey=c310c6d7d2d545e9b7a7a1c3843bc6ba`
   // We use regex to extra website name.
   let extract = url.match(/source=\=*(.*?)\s*&/).pop();
