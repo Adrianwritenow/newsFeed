@@ -10,32 +10,29 @@ class App extends Component {
       randomFeed: [],
       feed: [],
       loader: <Loader/>,
-      selection: 'the-next-web'
+      selection: 'the-next-web',
+      counter: -1
     }
     this.randomizer = this.randomizer.bind(this);
     this.selectSource = this.selectSource.bind(this);
   }
 
   randomizer() {
-    // We want to render a set of six random news headlines from the API data.
-    // We can simply use Math.floor() to create a random set of healines, but
-    // one side effect is that we get duplicates. Therefore, we use the method below to
-    // remove duplicates.
+
     let newsFeed = this.state.feed;
     let tmp = newsFeed.slice(newsFeed);
     let randomArray = [];
-    // We use a for loop to iterate over the length of the array six time.
-    // Then we grab a random news headline in each iteration, removing duplicates.
+
     for (let i = 0; i < 6; i++) {
       let index = Math.floor(Math.random() * tmp.length);
       let removed = tmp.splice(index, 1);
-      // Since we are only removing one element
       randomArray.push(removed[0]);
     }
-    // Set state. When the button is clicked, set the state for randomFeed and the loader.
+
     this.setState({
       randomFeed: randomArray,
-      loader: ''
+      loader: '',
+      counter: this.state.counter + 1
     })
   }
 
@@ -43,7 +40,6 @@ class App extends Component {
   componentDidMount(){
     this.fetchArticles(this.state.selection);
 
-  // Set your API URL with the API key.
 
 }
 fetchArticles(theSource){
@@ -84,8 +80,11 @@ render() {
         <h1 className="hd-title">{this.state.selection}</h1>
         <h2 className="hd-sub">News Randomizer</h2>
       </div>
+      <p>You have used {this.state.counter} of your free articles</p>
+      {this.state.counter >= 5 ? <h2>Pay Me my MEEEeny</h2>:
       <Feed handleClick={this.randomizer} feed={this.state.randomFeed}/>
-      {/* Your code here*/}
+      }
+
     </div>
   );
 }
